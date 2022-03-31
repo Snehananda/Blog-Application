@@ -1,0 +1,27 @@
+#blog{
+    margin-top: 100px;
+}
+
+#item {
+    width: 1200px;
+    padding: 20px 30px 20px 30px;
+    margin-left: auto;
+    margin-top: 2000x;
+    margin-right: auto;
+}
+
+#blog-title{
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+#blog-time{
+    position: relative;
+    top: -32px;
+    left: 300px;
+}
+
+.btn-blog{
+    margin-top: 50px;
+    margin-right: 30px;
+}

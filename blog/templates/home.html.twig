@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="w-4/5 m-auto pt-40">
+    <h1 class="text-6xl text-center pb-12">
+        Blogs
+    </h1>
+    
+    <table border="5px">
+    <thead>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Created date</th>
+        <th>User</th>
+    </thead>
+    <tbody>
+    {% for blog in blogs %}
+        <tr>
+            <td>{{ blog.Id }}</td>
+            <td>{{ blog.title }}</td>
+            <td>{{ blog.content }}</td>
+            <td>{{ blog.date|date('Y-m-d H:i:s') }}</td>
+            <td>{{ blog.user.getName() }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+</div>
+{% endblock %}

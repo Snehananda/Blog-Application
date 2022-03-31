@@ -1,0 +1,21 @@
+
+
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div id="blog">
+    <div id="item">
+          <h1 id="blog-title">{{blog.title}}</h1>
+        <h5 id="blog-author">Author: {{blog.user.getName()}}</h5>
+              <h5 id="blog-time">Created on: {{blog.date|date('Y-m-d H:i:s')}}</h5>
+              <hr style="margin-top: -20px;">
+              <p style="font-size: 20px;">{{blog.content}}</p>
+              <a class="btn btn-secondary btn-blog" href="/update/{{blog.Id}}" role="button">Update</a>
+              <a class="btn btn-secondary btn-blog" href="/delete/{{blog.Id}}" role="button">Delete</a>
+
+            </div>
+        </div>
+
+
+{% endblock %}
