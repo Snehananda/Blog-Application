@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="w-4/5 m-auto pt-40">
+    <h1 class="text-6xl text-center pb-12">
+        Login
+    </h1>
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button    
+            type="submit">
+            Login
+        </button>
+    {{ form_end(form) }}
+
+    <p>New User:<a href="/register">Register</a></p>
+</div>
+{% endblock %}

@@ -17,17 +17,16 @@
         {% endblock %}
     </head>
     <body>
+    {% block navbar %}
         <nav class = "navbar navbar-dark bg-dark" id="navbar">
             <span class="navbar-brand mb-0 h1">Blogs</span>
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                  <a class="navbar-link nav-link active" aria-current="page" href="/login/">Login</a>
-                </li>
-                <li class="nav-item">
-                  <a class="navbar-link nav-link" href="/signup/">Sign-up</a>
+                  <a class="navbar-link nav-link active" aria-current="page" href="/logout">Logout</a>
                 </li>
               </ul>
         </nav>
+        {% endblock %}
         {% block body %}{% endblock %}
     </body>
 </html>

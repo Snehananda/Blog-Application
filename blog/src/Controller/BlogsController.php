@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Blog;
 use App\Entity\User;
 use App\Form\BlogFormType;
+use App\Form\UserLoginFormType;
+use App\Form\UserRegisterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +17,93 @@ class BlogsController extends AbstractController
 {
     private $userId = 1;
 
-   
+
+
+    /**
+     * @Route("/", name="app_home")
+     */
+    public function home(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $this->isLogin = false;
+
+        return $this->render("home.html.twig");
+    
+    }
+
+
+    /**
+     * @Route("/blog/register", name="app_register")
+     */
+    public function register(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserRegisterFormType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $allUsers = $doctrine->getRepository(User::class)->findAll();
+            foreach($allUsers as $eachUser) {
+                if($eachUser->getEmail() == $form->get('email')->getData()) {
+                    return $this->redirectToRoute('app_login');
+                }
+            }
+
+            $newUser = $form->getData();
+
+            $entityManager = $doctrine->getManager();
+
+            $entityManager->persist($newUser);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_blogs');
+        }
+
+        return $this->render("register.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/login", name="app_login")
+     */
+    public function login(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserLoginFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newUser = $form->getData();
+            
+            $allUsers = $doctrine->getRepository(User::class)->findAll();
+            foreach($allUsers as $eachUser) {
+                if($eachUser->getEmail() == $form->get('email')->getData() && $eachUser->getPassword() == $form->get('password')->getData()) {
+                    return $this->redirectToRoute('app_blogs');
+                }
+            }
+            
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render("login.html.twig", [
+            'form' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout(ManagerRegistry $doctrine, Request $request): Response
+    {
+        return $this->redirectToRoute('app_home');
+    
+    }
+
 
     /**
      * @Route("/blogs", name="app_blogs")
@@ -37,14 +125,20 @@ class BlogsController extends AbstractController
     {
         $blog = $doctrine->getRepository(Blog::class)->find($id);
         //dd($blog);
+        if($blog->getUser()->getId() == $this->userId) {
+            $allow = true;
+        }
+        else{
+            $allow = false;
+        }
         return $this->render("show.html.twig", [
-            'blog'=>$blog
+            'blog'=>$blog, 'allow'=>$allow
         ]);
     }
 
 
     /**
-     * @Route("/blog/create", name="create_blog")
+     * @Route("/blog/create", name="app_create_blog")
      */
     public function createBlog(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -73,7 +167,7 @@ class BlogsController extends AbstractController
     }
 
     /**
-     * @Route("/update/{id}", name="update_blog")
+     * @Route("/update/{id}", name="app_update_blog")
      */
     public function updateBlog(ManagerRegistry $doctrine, Request $request, $id): Response
     {
@@ -100,7 +194,7 @@ class BlogsController extends AbstractController
 
 
     /**
-     * @Route("/delete/{id}", methods={"GET", "DELETE"}, name="delete_blog")
+     * @Route("/delete/{id}", name="app_delete_blog")
      */
     public function deleteBlog(ManagerRegistry $doctrine, $id): Response
     {
