@@ -5,22 +5,23 @@
 <h4 id="title-head">Blogs</h4>
 
     <div id="blog-list">
-    <a href="/blog/create" class="btn btn-secondary btn-blog-create" role="button">Create Blog</a>
+        <a href="/blogs/create" class="btn btn-secondary btn-blog-create" role="button">Create Blog</a>
 
-    {% for blog in blogs %}
+        {% for blog in blogs %}
         
           
             <div class="blog-item">
-              <h1 class="title">{{blog.title}}</h1>
-              <h5 class="author">{{blog.user.getName()}}</h5>
-              <h5 class="time">{{blog.date|date('Y-m-d H:i:s')}}</h5>
-              <hr style="margin-top: -20px;">
-              <p>{{blog.content}}</p>
-              <a href="/blogs/{{blog.Id}}">Read more.</a>
+                <h1 class="title">{{blog.title}}</h1>
+                <h5 class="author">{{blog.user.getName()}}</h5>
+                <h5 class="time">{{blog.date|date('Y-m-d H:i:s')}}</h5>
+                <hr style="margin-top: -20px;">
+                <p>{{blog.content}}</p>
+                <a href="/blog/{{blog.Id}}">Read more.</a>
             </div>
 
 
-    {% endfor %}
+        {% endfor %}
+
         </div>
 
 

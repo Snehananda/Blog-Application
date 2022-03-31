@@ -115,7 +115,7 @@ class BlogsController extends AbstractController
 
 
     /**
-     * @Route("/blogs/{id}", name="app_blog")
+     * @Route("/blog/{id}", name="app_blog")
      */
     public function show(ManagerRegistry $doctrine, $id): Response
     {
@@ -128,7 +128,7 @@ class BlogsController extends AbstractController
 
 
     /**
-     * @Route("/blog/create", name="app_create_blog")
+     * @Route("/blogs/create", name="app_create_blog")
      */
     public function createBlog(ManagerRegistry $doctrine, Request $request): Response
     {

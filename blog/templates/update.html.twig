@@ -1,20 +1,30 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+
 <div class="w-4/5 m-auto pt-40">
     <h1 class="text-6xl text-center pb-12">
         Update Blog
     </h1>
     
 
-    {{ form_start(form) }}
 
-    {{ form_widget(form) }}
-    <button    
-            type="submit">
-            Update Post
-        </button>
-    {{ form_end(form) }}
+    <div class="container">
+        <div class="container-create-center">
+        
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <button    
+                type="submit">
+                Update Blog
+            </button>
+            
+            {{ form_end(form) }}
+
+        </div>
+    </div>
 
 </div>
 {% endblock %}

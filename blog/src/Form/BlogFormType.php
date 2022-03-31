@@ -19,19 +19,12 @@ class BlogFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'attr' => array(
-                    'class' => 'bg-transparent block border-b-2 w-full h-20 text-6xl outline-none',
-                    'placeholder' => 'Enter title...'
-                )
-            ])
+            ->add('title', TextType::class)
             ->add('content', TextareaType::class)
             //->add('date', DateTimeType::class)
             //->add('user', TypeEntityType::class, [
               //  'class' => User::class
                 //])
-
-            
         ;
     }
 
