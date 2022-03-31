@@ -18,21 +18,17 @@ class BlogsController extends AbstractController
     private $userId = 1;
 
 
-
     /**
      * @Route("/", name="app_home")
      */
-    public function home(ManagerRegistry $doctrine, Request $request): Response
+    public function home(): Response
     {
-        $this->isLogin = false;
-
         return $this->render("home.html.twig");
-    
     }
 
 
     /**
-     * @Route("/blog/register", name="app_register")
+     * @Route("/register", name="app_register")
      */
     public function register(ManagerRegistry $doctrine, Request $request): Response
     {
@@ -98,7 +94,7 @@ class BlogsController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout(ManagerRegistry $doctrine, Request $request): Response
+    public function logout(): Response
     {
         return $this->redirectToRoute('app_home');
     
@@ -111,7 +107,7 @@ class BlogsController extends AbstractController
     public function index(ManagerRegistry $doctrine): Response
     {
         $blog = $doctrine->getRepository(Blog::class)->findAll();
-        //dd($blog);
+        
         return $this->render("index.html.twig", [
             'blogs'=> $blog
         ]);
@@ -124,15 +120,9 @@ class BlogsController extends AbstractController
     public function show(ManagerRegistry $doctrine, $id): Response
     {
         $blog = $doctrine->getRepository(Blog::class)->find($id);
-        //dd($blog);
-        if($blog->getUser()->getId() == $this->userId) {
-            $allow = true;
-        }
-        else{
-            $allow = false;
-        }
+
         return $this->render("show.html.twig", [
-            'blog'=>$blog, 'allow'=>$allow
+            'blog'=>$blog
         ]);
     }
 
@@ -167,7 +157,7 @@ class BlogsController extends AbstractController
     }
 
     /**
-     * @Route("/update/{id}", name="app_update_blog")
+     * @Route("/blog/update/{id}", name="app_update_blog")
      */
     public function updateBlog(ManagerRegistry $doctrine, Request $request, $id): Response
     {
@@ -194,7 +184,7 @@ class BlogsController extends AbstractController
 
 
     /**
-     * @Route("/delete/{id}", name="app_delete_blog")
+     * @Route("/blog/delete/{id}", name="app_delete_blog")
      */
     public function deleteBlog(ManagerRegistry $doctrine, $id): Response
     {
