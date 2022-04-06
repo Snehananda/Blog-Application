@@ -39,11 +39,11 @@ class BlogsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $allUsers = $doctrine->getRepository(User::class)->findAll();
-            foreach($allUsers as $eachUser) {
-                if($eachUser->getEmail() == $form->get('email')->getData()) {
-                    return $this->redirectToRoute('app_login');
-                }
+            $newEmail = $form->get('email')->getData();
+            $getUser = $doctrine->getRepository(User::class)->findOneBy(['email' => $newEmail]);
+            
+            if($getUser != null) {
+                return $this->redirectToRoute('app_login');
             }
 
             $newUser = $form->getData();
@@ -72,17 +72,17 @@ class BlogsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newUser = $form->getData();
+
+            $email = $form->get('email')->getData();
+            $password = $form->get('password')->getData();
+            $getUser = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
             
-            $allUsers = $doctrine->getRepository(User::class)->findAll();
-            foreach($allUsers as $eachUser) {
-                if($eachUser->getEmail() == $form->get('email')->getData() && $eachUser->getPassword() == $form->get('password')->getData()) {
-                    return $this->redirectToRoute('app_blogs');
-                }
+            if($getUser == null || $getUser->getPassword() != $password) {
+                return $this->redirectToRoute('app_login');
             }
             
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_blogs');
         }
 
         return $this->render("login.html.twig", [
