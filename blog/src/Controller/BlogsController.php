@@ -72,14 +72,6 @@ class BlogsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newUser = $form->getData();
-            
-            $allUsers = $doctrine->getRepository(User::class)->findAll();
-            foreach($allUsers as $eachUser) {
-                if($eachUser->getEmail() == $form->get('email')->getData() && $eachUser->getPassword() == $form->get('password')->getData()) {
-                    return $this->redirectToRoute('app_blogs');
-                }
-            }
 
             $email = $form->get('email')->getData();
             $password = $form->get('password')->getData();
